@@ -11,22 +11,9 @@ class AdminHomePage extends StatefulWidget {
 class _AdminHomePageState extends State<AdminHomePage> {
   List<dynamic> dataGet = [];
   final db = FirebaseFirestore.instance;
-  Future<List<dynamic>> getData(String top) async {
-
-    final DocumentReference document =   db.collection("bill").doc(top);
-
-    await document.get().then<dynamic>(( DocumentSnapshot snapshot) async{
-     setState(() {
-       dataGet =snapshot.data as List;
-     });
-    });
-    return dataGet;
- }
+  
   @override
   void initState() {
-
-   
- 
     // TODO: implement initState
     super.initState();
   }
@@ -46,8 +33,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
                
                 return InkWell(
                   onTap: () {
-                    getData(snapshot.data!.docs[index].reference.id);
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> DetailsPage(data: dataGet,)));
+                    print(dataGet.length);
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> DetailsPage(path: snapshot.data!.docs[index].reference.id,)));
                   },
                   child: ListTile(
                     title: Center(child: Text(snapshot.data!.docs[index].reference.id)),
